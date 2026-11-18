@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html><body>
+<h2>登录 / 注册</h2>
+<input id="u" placeholder="用户名"><br>
+<input id="p" type="password" placeholder="密码"><br>
+<button onclick="login()">登录</button>
+<button onclick="register()">注册</button>
+<script>
+async function post(url, body) {
+  const r = await fetch(url, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(body)
+  });
+  return r.json();
+}
+async function login() {
+  const r = await post('/api/login', { username: u.value, password: p.value });
+  if (r.token) {
+    localStorage.setItem('token', r.token);
+    localStorage.setItem('username', r.username);
+    location.href = '/editor.html';
+  } else alert(r.msg);
+}
+async function register() {
+  const r = await post('/api/register', { username: u.value, password: p.value });
+  alert(r.msg);
+}
+</script>
+</body></html>

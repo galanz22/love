@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html><body>
+<h2>所有文章</h2>
+<a href="/editor.html">去发布</a>
+<div id="list"></div>
+<script>
+async function load() {
+  const r = await fetch('/api/posts');
+  const posts = await r.json();
+  list.innerHTML = posts.map(p => `
+    <div style="border-bottom:1px solid #eee;padding:10px 0;">
+      <b>${p.username}</b>
+      <small style="color:#999">${p.created_at}</small>
+      <div>${p.content}</div>
+    </div>
+  `).join('') || '还没有文章';
+}
+load();
+</script>
+</body></html>
